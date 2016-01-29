@@ -10,5 +10,5 @@ region = sys.argv[1]
 ranges = requests.get('https://ip-ranges.amazonaws.com/ip-ranges.json').json()
 
 for prefix in ranges['prefixes']:
-    if prefix['region'] == region or prefix['region'] == "GLOBAL":
+    if prefix['region'] == region:
         print(prefix['ip_prefix'])
