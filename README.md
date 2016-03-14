@@ -35,7 +35,8 @@ This requires the following function in your bashrc or profile:
 ```bash
 function awsenv () {
  eval "$(cat "${HOME}/.aws/env.${1}.asc" | gpg --decrypt --armor)"
-}```
+}
+```
 
 
 It uses a simple env.conf file in ~/.aws/env.conf which set the following
