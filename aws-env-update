@@ -41,8 +41,8 @@ function aws_secret_key () {
 }
 
 gpg --encrypt --armor -r "${GPG_RECIPIENT}" > "${ENV_FILE}" <<EOF || exit 70
-export TF_VAR_AWS_ACCESS_KEY="$(aws_access_key)"
-export TF_VAR_AWS_SECRET_KEY="$(aws_secret_key)"
+export TF_VAR_aws_access_key="$(aws_access_key)"
+export TF_VAR_aws_secret_key="$(aws_secret_key)"
 export AWS_ACCESS_KEY="$(aws_access_key)"
 export AWS_SECRET_KEY="$(aws_secret_key)"
 export AWS_ACCESS_KEY_ID="$(aws_access_key)"
