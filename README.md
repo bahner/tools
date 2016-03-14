@@ -7,7 +7,9 @@ ip-ranges
 
 This is a simple script to print IP ranges for AWS. Give it a region
 as parameter and | sort -u, eg:
-    ip-ranges.py eu-west-1 | sort -u > cidrs.eu-west-1
+```bash
+ip-ranges.py eu-west-1 | sort -u > cidrs.eu-west-1
+```
 
 
 aws-env-update
