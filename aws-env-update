@@ -30,7 +30,7 @@ test -n "$1" && ACCOUNT_ALIAS=$1 || {
 }
 
 # ENV_FILE
-ENV_FILE="${AWS_DIR}/env.${ACCOUNT_ALIAS}.asc"
+ENV_FILE="${HOME}/.aws/env.${ACCOUNT_ALIAS}.asc"
 
 function aws_access_key () {
   tail -n 1 "${CREDFILE}" | cut -d, -f2
