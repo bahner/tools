@@ -1,0 +1,53 @@
+#!/bin/bash
+
+. ${HOME}/.aws/env.conf || {
+  echo "${HOME}/.aws/env.conf missing"
+  exit 66
+}
+
+function usage () {
+
+cat <<EOF
+  Usage: $(basename $0) account_alias
+
+  command only takes one argument but needs
+    ${CREDFILE}
+  to be present.
+EOF
+
+  exit $1
+
+}
+
+test -r "${CREDFILE}" || {
+  echo "${CREDFILE} missing"
+  exit 66
+}
+
+# Test that account alias to use have been specified
+test -n "$1" && ACCOUNT_ALIAS=$1 || {
+  usage 64
+}
+
+# ENV_FILE
+ENV_FILE="${AWS_DIR}/env.${ACCOUNT_ALIAS}.asc"
+
+function aws_access_key () {
+  tail -n 1 "${CREDFILE}" | cut -d, -f2
+}
+
+function aws_secret_key () {
+  tail -n 1 "${CREDFILE}" | cut -d, -f3
+}
+
+gpg --encrypt --armor -r "${GPG_RECIPIENT}" > "${ENV_FILE}" <<EOF || exit 70
+export AWS_ACCESS_KEY="$(aws_access_key)"
+export AWS_SECRET_KEY="$(aws_secret_key)"
+export AWS_ACCESS_KEY_ID="$(aws_access_key)"
+export AWS_SECRET_ACCESS_KEY="$(aws_secret_key)"
+EOF
+
+
+echo "Press Enter to delete ${CREDFILE}? Or Ctrl-C to leave it."
+read DELFILE
+rm -f "${CREDFILE}"
