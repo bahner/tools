@@ -33,11 +33,11 @@ test -n "$1" && ACCOUNT_ALIAS=$1 || {
 ENV_FILE="${HOME}/.aws/env.${ACCOUNT_ALIAS}.asc"
 
 function aws_access_key () {
-  tail -n 1 "${CREDFILE}" | cut -d, -f2
+  tail -n 1 "${CREDFILE}" | cut -d, -f1
 }
 
 function aws_secret_key () {
-  tail -n 1 "${CREDFILE}" | cut -d, -f3
+  tail -n 1 "${CREDFILE}" | cut -d, -f2
 }
 
 gpg --encrypt --armor -r "${GPG_RECIPIENT}" > "${ENV_FILE}" <<EOF || exit 70
