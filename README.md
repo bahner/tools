@@ -47,3 +47,15 @@ export GPG_RECIPIENT="lars.bahner@gmail.com"
 ```
 
 You will be asked to delete the credentials file, and you should.
+
+p
+---
+p some_password will grep for passwords in a PGP encrypted file, eg:
+```bash
+p facebook
+p .
+```
+The last command will print entire file to STDOUT. It's simple, but it's
+really all you need. All my daily passwords are stored in one file (that
+I can edit in VIM) - and lookup is a breeze. I just need a pattern to 
+search for.
