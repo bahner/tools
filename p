@@ -10,16 +10,32 @@ print_matching_patterns () {
 }
 
 extract_password () {
-  readarray -t matched_line < <(gpg --decrypt "${PASSWORD_FILE}" 2> /dev/null \
-    | egrep -ie "$@" \
-    | sed "s/${DELIMITER}/\n/g" \
-    | sed "s/^[[:space:]]*//g" \
-    | sed "s/[[:space:]]*$//g")
-  echo "${matched_line[-1]}"
+  local matched_line
+
+  readarray -t matched_line < <(
+    gpg --decrypt "${PASSWORD_FILE}" 2>/dev/null |
+      grep -Ei -- "$*" |
+      sed "s/${DELIMITER}/\n/g" |
+      sed 's/^[[:space:]]*//; s/[[:space:]]*$//'
+  )
+
+  if ((${#matched_line[@]} == 0)); then
+    return 1
+  fi
+
+  printf '%s\n' "${matched_line[-1]}"
 }
+#extract_password () {
+#  readarray -t matched_line < <(gpg --decrypt "${PASSWORD_FILE}" 2> /dev/null \
+#    | egrep -ie "$@" \
+#    | sed "s/${DELIMITER}/\n/g" \
+#    | sed "s/^[[:space:]]*//g" \
+#    | sed "s/[[:space:]]*$//g")
+#  echo "${matched_line[-1]}"
+#}
 
 put_password_in_clipboard () {
-  echo -n "$@" | xclip
+  echo -n "$@" | wl-copy
 }
 
 usage () {
